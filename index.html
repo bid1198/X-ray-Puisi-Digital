@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X-ray Puisi Digital</title>
+    <!--
+MIT License
+
+Copyright © 2024 Bangkit I. D.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+    <style>
+        body {
+            background-color: black;
+        }
+        footer {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #999;
+            font-size: 16px;
+        }
+        
+        #xray-rain {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            width: 80%;
+            height: 70%;
+            z-index: -1;
+        }
+        
+        p {
+            color: #ABABAB;
+            text-decoration: none;
+            font-family: sans-serif;
+            border-bottom: 0px solid #999;
+            padding: 5px 10px;
+            line-height: 17px;
+        }
+        
+        .xray-focus {
+            position: absolute;
+            top: 45%;
+            left: 55%;
+            color: black;
+            font-size: 24vw;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .xray-drop {
+            position: absolute;
+            color: white;
+            z-index: 0;
+            font-size: 10px;
+            opacity: 0.3;
+        }
+
+        .xray-flare {
+            position: absolute;
+            color: black;
+            z-index: 0;
+            font-size: 35px;
+        }
+    </style>
+</head>
+<body>
+    <footer>
+        <p>X-ray Puisi Digital</p>
+    </footer>
+    <div id="xray-rain"></div>
+    <div class="xray-focus">DIGITAL</div>
+    
+    <script>
+        let elapsedTime = 0, isAnimationPaused = false;
+
+        const flareWords = ["1", "0"];
+
+        function createRainfall() {
+            if (!isAnimationPaused) {
+                const drop = document.createElement("div");
+                drop.classList.add("xray-drop");
+                drop.textContent = "Puisi";
+
+                const leftPos = Math.random() * 80;
+                const topPos = Math.random() * 70;
+                const fontSize = Math.random() * 40 + 10;
+                const opacity = Math.random() * 0.5 + 0.3;
+
+                drop.style.fontSize = `${fontSize}px`;
+                drop.style.opacity = opacity;
+                drop.style.left = `${leftPos}vw`;
+                drop.style.top = `${topPos}vh`;
+
+                document.getElementById("xray-rain").appendChild(drop);
+
+                setTimeout(() => { drop.remove(); }, 10000);
+            }
+        }
+
+        function createFlare() {
+            if (isAnimationPaused) {
+                const flare = document.createElement("div");
+                flare.classList.add("xray-flare");
+
+                const randomFlare = flareWords[Math.floor(Math.random() * flareWords.length)];
+                flare.textContent = randomFlare;
+
+                const leftPos = Math.random() * 80;
+                const topPos = Math.random() * 65;
+                const fontSize = Math.random() * 65 + 35;
+
+                flare.style.fontSize = `${fontSize}px`;
+                flare.style.left = `${leftPos}vw`;
+                flare.style.top = `${topPos}vh`;
+
+                document.getElementById("xray-rain").appendChild(flare);
+            }
+        }
+
+        let intervalRainfall = setInterval(createRainfall, 100);
+        let intervalFlare = setInterval(createFlare, 100);
+
+        function accelerateRainfall() {
+            elapsedTime += 0.1;
+            if (elapsedTime >= 15) {
+                clearInterval(intervalRainfall);
+                intervalRainfall = setInterval(createRainfall, 100 / elapsedTime);
+            }
+            if (elapsedTime >= 150) {
+                clearInterval(intervalRainfall);
+            }
+        }
+
+        setInterval(accelerateRainfall, 100);
+        
+document.addEventListener("mouseenter", () => { isAnimationPaused = true; });
+document.addEventListener("mouseleave", () => { isAnimationPaused = false; });
+
+document.addEventListener("touchstart", () => { isAnimationPaused = true; });
+document.addEventListener("touchend", () => { isAnimationPaused = false; }); 
+    </script>
+</body>
+</html>
